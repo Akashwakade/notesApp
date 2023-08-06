@@ -13,6 +13,8 @@ invoke express as const app=express()
 app.use(express.json())
 app.listen
 6) then  connecting to databassee what i need db
+local db==>mongodb://127.0.0.1:27017/notesData
+mongodb==> 
 
 # REgistration
 7) then user registration i need route
@@ -45,3 +47,62 @@ send token handle error
 # creating notes route
 
 to make crud i need routes ==> express && express.router
+create get,patch,delete,post routes
+then export noterouter and use it inside index 
+then create notemodel
+but this note routes are restricted i need some auth
+for auth i need to create middleware
+now inside middleware what we need
+ we need jwt from jsonwebtoken
+ then create auth middleware
+  now from where we will get token token=req.headers.authorization?.split(" ")[1] then put try catch block if i got the token then 
+  create decoded=jwt.verify(token,"secret key") if decoded is true then i will go to next() else res.json({msg:"not authorized}) inside catch(err) res.json({err:err.message}) 
+
+  else res.json({msg:'please login first"}) 
+  then export auth and rquire to the noterotes
+  then use it as noteRouter.use(auth) top of noterouter methods
+
+
+  # post logic notes
+  simply create try catch block
+  create note using new notemodel(req.body)
+  then await note.save()
+  then res.json({msg:"note has been added},note:req.body)
+
+  inside catch handle error
+  currently we are not adding relationship so maually write user while making post request to the notes route
+  if i directly try to post it will give me msg please login to login
+  to login i should have token 
+  then login you will get token
+   copy the token inside note routes create  go to headers
+add key=Authorization and value as  Bearer token then clicking on send then new note will get created
+
+# get logic notes
+copy paste post part
+just do const notes=await notemodel.find() and send it as res
+now if i make get req. i am getting all the notes
+but this should not be the case everything should be dynamic
+in order to achieve this i need relationship conection between note connection and user connection
+ 
+ how to create relationshion===>
+ 1) you can put parents(independant) id inside child(dependant) 
+ 2) among user coll. and note coll. which one is independant and which one is dependant?
+ user is independent  (because user can exist if there are no notes)
+ note is dependent(note can not exist without user)
+
+ if i do not have user account can i post
+ so put userid inside note
+ go to note model along with user put userID:string
+ am i putting this id manually by myself mongodb created userid
+ if i do not know user id how can i put this inside notemodel 
+so the authmiddleware is connected to user and note
+
+jwt gives 3 things 1) headers
+                   2) random payload
+                   3) 
+
+while login we will put id using jwt and catch the id back insdie note     
+try consoling decoded in the auth middleware you will get random payload course:be and iat there you can pass userid in object like{userID:user._id} because in mongdb id get stored as _id
+before sending to next() req.body.userID=decoded.userID  and req.body.user=decoded.user then next()  
+making new request now i am not adding user still it got added automaticall.            
+
