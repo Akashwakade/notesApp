@@ -104,5 +104,20 @@ jwt gives 3 things 1) headers
 while login we will put id using jwt and catch the id back insdie note     
 try consoling decoded in the auth middleware you will get random payload course:be and iat there you can pass userid in object like{userID:user._id} because in mongdb id get stored as _id
 before sending to next() req.body.userID=decoded.userID  and req.body.user=decoded.user then next()  
-making new request now i am not adding user still it got added automaticall.            
+making new request now i am not adding user still it got added automatically.  
+
+# patch request
+to implement patch and delete we have to take care of one thing
+we have to check whether the notes we are updating is that particular user or not ====> solution is relationship.
+to update one thing is clear id===userid 
+from where we will get useridinnote coming from note.userID but from where we will get note ===>notemodel.find({_id==userID})  ===>userid coming from params
+
+userid coming from req.body.userid then apply trycatch block
+now the point is how to update?
+to update write like this localhost:4500/notes/update/64cf646c92cdbc0273ecd560
+
+# Delete
+
+same logic just remove extra object and do findbyidanddelete
+
 
