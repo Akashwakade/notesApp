@@ -19,6 +19,8 @@ function App() {
      <Route path='/signup' element={<Signup />}/>
      <Route path='/login' element={<Login/>}/>
      <Route path='/addnote' element={<AddNote/>}/>
+     <Route path='/' element={<Signup/>}/>
+     <Route path='*' element={<h1>page not found!!!</h1>}/>
      </Routes>
     </div>
   );
